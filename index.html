@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="">
+  <meta name="keywords" content="Video Generation, Diffusion Model">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VersVideo</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+<!-- 
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+ -->
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">VersVideo: Leveraging Enhanced Temporal Diffusion Models for Versatile Video Generation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Jinxi Xiang, Ricong Huang, Jun Zhang, Guanbin Li, Xiao Han, Wei Yang</span>
+          </div>
+<!-- 
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Washington,</span>
+            <span class="author-block"><sup>2</sup>Google Research</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+ -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Creating stable, controllable videos remains a challenging task due to the need for significant variation in temporal dynamics and cross-frame temporal consistency. To tackle this, we enhance the spatial-temporal capability and introduce a versatile video generation model, <b>VersVideo</b>, which utilizes textual, visual, and stylistic conditions. Current video diffusion models typically extend image diffusion architectures by augmenting 2D operations (such as convolutions and attentions) with a 1D temporal operation. This approach, while efficient, often limits spatial-temporal performance due to the simplification of standard 3D operations. To overcome this, we incorporate multi-excitation paths for spatial-temporal convolutions, which are embedded with 2D convolutions and multi-expert spatial-temporal attention blocks. These improvements enhance the model's spatial-temporal performance without significantly increasing training and inference costs. We also address the issue of information loss that occurs when a variational autoencoder is used to convert pixel space into latent features and back into pixel frames. To compensate for this, we integrate temporal modules into the decoder to retain more temporal information. Leveraging the new denoising UNet and decoder, we develop a unified ControlNet model suitable for various conditions, including image, Canny, HED, depth, and style. Examples of generated videos can be in this page.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Text2Video Generation (576*320)</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+    
+      
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-l">
+            Art Nouveau painting of a female botanist surrounded by exotic plants in a greenhouse.
+          </p>
+          <div class="video-container">
+            <video id="selected_tcm_27_0" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/selected_tcm_27_0.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-l">
+            A small ship sailing in a stormy sea, with dramatic lighting and powerful waves.
+          </p>
+          <div class="video-container">
+            <video id="selected_tcm_25_1" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/selected_tcm_25_1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-l">
+            Aerial photography of a winding river through autumn forests, with vibrant red and orange foliage.
+          </p>
+          <div class="video-container">
+            <video id="selected_tcm_13_2" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/selected_tcm_13_2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">        
+      
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            The octopus marches slowly under the water.
+          </p>
+          <div class="video-container">
+            <video id="octopus" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/octopus.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            Mountain river.
+          </p>
+          <div class="video-container">
+            <video id="selected_tcm_7_3" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/selected_tcm_7_3.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            Close up craftsman worker sawing a steel pipe, Technician concept.
+          </p>
+          <div class="video-container">
+            <video id="Craftsman" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/L2010.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">        
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Forest in Autumn.
+          </p>
+          <div class="video-container">
+            <video id="autumn" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/L2012.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Fishing boat at the little wharf.
+          </p>
+          <div class="video-container-s">
+            <video id="boat" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/L2020.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Ducks in a Pond.
+          </p>
+          <div class="video-container">
+            <video id="duck" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/L2027.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">        
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            A man is riding a motorcycle on the road, cyberpunk style.
+          </p>
+          <div class="video-container">
+            <video id="cyber_motorcycle" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/cyber_motorcycle.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            A clownfish is swimming in coral reefs. 
+          </p>
+          <div class="video-container-s">
+            <video id="boat2" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/fish.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-m">
+            A turtle crawling on the bottom of the sea, beautiful.
+          </p>
+          <div class="video-container">
+            <video id="duck2" autoplay controls muted loop playsinline>
+              <source src="./static/videos/text2video/E5009.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">The Effectiveness of <b>TCM-VAE</b></h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            The Variational Autoencoder (VAE) from pretrained image models is often reused for most existing video latent diffusion models. However, the image VAE is a significant contributor to <b>video flickering and inconsistency</b>. To illustrate this issue, we present several video reconstruction examples of resolution 24x256x256 below. We compare the widely-used image VAE for StableDiffusion with our proposed <b>TCM-VAE</b>.  
+          </p>
+          <p>
+            As for image VAE, we encode the video frames independently and then reconstruct them back into a video using a vanilla decoder. For TCM-VAE, the encoding process remains unchanged, but we employ our well-designed decoder with temporal awareness. As demonstrated by the results, the flickering effects in the reconstructed videos have been significantly reduced, although they are not yet perfectly smooth. Another advantage of TCM-VAE is its compatibility. Since the encoder remains frozen, TCM-VAE can be easily integrated with most existing video diffusion models, making it a plug-and-play solution.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <!-- row 1 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Original Video
+          </p>
+          <div class="video-container">
+            <video id="video_30_org" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_30_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            <a href="https://huggingface.co/stabilityai/sd-vae-ft-mse/tree/main">
+              <span>Image VAE </span>
+            </a>
+          </p>
+          <div class="video-container">
+            <video id="video_30_vanilla" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_30_vanilla.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            TCM-VAE (Ours)
+          </p>
+          <div class="video-container">
+            <video id="video_30_tcm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_30_tcm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of row 1 -->
+
+    <!-- row 2 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          
+          <div class="video-container">
+            <video id="video_11_org" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_11_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_11_vanilla" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_11_vanilla.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_11_tcm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_11_tcm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of row 2 -->
+
+
+    <!-- row 3 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          
+          <div class="video-container">
+            <video id="video_292_org" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_292_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_292_vanilla" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_292_vanilla.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_292_tcm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_292_tcm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of row 3 -->
+
+
+    <!-- row 4 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          
+          <div class="video-container">
+            <video id="video_1040_org" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_1040_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_1040_vanilla" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_1040_vanilla.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_1040_tcm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_1040_tcm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of row 4 -->
+
+
+    <!-- row 5 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          
+          <div class="video-container">
+            <video id="video_2218_org" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_2218_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_2218_vanilla" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_2218_vanilla.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_2218_tcm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/vae/video_2218_tcm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of row 5 -->
+
+
+
+
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Visual Conditions Generation (576*320)</h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            The text prompt from the top row to the bottom row. (1) <b>Cyberpunk</b> city. (2) Glittering and translucent fishes swimming in a small bowl with <b>stones</b>, like a <b>glass fish</b>. (3) Mountain river in <b>spring</b>. (4) A robot  walking in the field. (5) Lotus flowers, best quality. (6) A swan. (7) A swan.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <!-- row 1 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Original Video
+          </p>
+          <div class="video-container">
+            <video id="video_1_sample_0" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_1_sample_0.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Visual Condition
+          </p>
+          <div class="video-container">
+            <video id="video_1_sample_0_depth" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_1_sample_0_depth.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Generated Video
+          </p>
+          <div class="video-container">
+            <video id="city_depth" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/city_depth.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 1 -->
+
+    <!-- row 2 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_3_sample_3" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_3_sample_3.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_3_sample_3_canny" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_3_sample_3_canny.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="fish_canny" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/fish_canny.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 2 -->
+
+
+    <!-- row 3 -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_6_sample_1" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_6_sample_1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_6_sample_1_hed" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_6_sample_1_hed.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="mountain_hed" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/mountain_hed.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 3 -->
+
+
+    <!-- row 4 -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video_7_sample_3" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/video_7_sample_3.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="robot_depth" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/robot_depth.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="robot" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/robot.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 4 -->
+
+    <!-- row 5 -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <div class="image-container">
+            <img src="./static/videos/image2video/image_input.png" alt="Description of the image">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="image-container">
+            <img src="./static/videos/image2video/image_input.png" alt="Description of the image">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="video1-1" autoplay controls muted loop playsinline>
+              <source src="./static/videos/image2video/video1-1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 5 -->
+
+    <!-- row 6 -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="black-swan" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/swan_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="image-container">
+            <img src="./static/videos/versvideo_huge/fangao_01.png" alt="Description of the image">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="swan1_576" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/swan1_576.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 6 -->
+
+
+    <!-- row 7 -->
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="black-swan2" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/swan_org.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="image-container">
+            <img src="./static/videos/versvideo_huge/cpaint.png" alt="Description of the image">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="swan2_576" autoplay controls muted loop playsinline>
+              <source src="./static/videos/versvideo_huge/swan2_576.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 7 -->
+
+
+
+
+
+
+
+
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Visual Conditions Generation (256*256)</h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            We use the test examples presented in 
+            <a href="https://github.com/AILab-CVC/Make-Your-Video">
+              <span>Make-Your-Video.</span>
+            </a>
+          </p>
+          <p>
+            The text prompt from the top row to the bottom row. (1) A dam discharging water. (2) A tiger walks in the forest, photorealistic. (3) A camel walking on the snow field, Miyazaki Hayao anime style. The visual conditions used for generation are: depth, canny, and HED.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <!-- row 1 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Original Video
+          </p>
+          <div class="video-container">
+            <video id="dam_input" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/dam_input.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Text2Video-zero
+          </p>
+          <div class="video-container">
+            <video id="dam_t2vzero" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/dam_t2vzero.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            LVDMExt+Adapter
+          </p>
+          <div class="video-container">
+            <video id="dam_lvdm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/dam_lvdm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            Make-Your-video
+          </p>
+          <div class="video-container">
+            <video id="dam_make" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/dam_make.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <p class="video-caption-s">
+            VersVideo-L (Ours)
+          </p>
+          <div class="video-container">
+            <video id="dam_ours" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/dam_ours.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 1 -->
+
+    <!-- row 2 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="bear_input" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/bear_input.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="bear_t2vzero" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/bear_t2vzero.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="bear_lvdm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/bear_lvdm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="bear_make" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/bear_make.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="bear_ours" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/bear_ours.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    <!-- end of row 2 -->
+    </div>
+
+
+    <!-- row 3 -->
+    <div class="columns is-centered">
+      
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="camel_input" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/camel_input.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="camel_t2vzero" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/camel_t2vzero.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="camel_lvdm" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/camel_lvdm.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="camel_make" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/camel_make.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="content">
+          <div class="video-container">
+            <video id="camel_ours" autoplay controls muted loop playsinline>
+              <source src="./static/videos/editvideo/camel_ours.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of row 3 -->
+  </div>
+</section>
+
+
+
+
+
+</body>
+</html>
